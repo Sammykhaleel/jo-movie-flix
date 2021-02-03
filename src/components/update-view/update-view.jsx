@@ -5,7 +5,6 @@ import Container from "react-bootstrap/Container";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-
 export function UpdateView(props) {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
@@ -26,59 +25,62 @@ export function UpdateView(props) {
       localStorage.getItem("user");
 
     if (isValid) {
-    axios
-      .put(
-        url,
-        {
-          Username: username,
-          Password: password,
-          Email: email,
-          Birthday: birthday,
-        },
-        {
-          headers: { Authorization: "Bearer " + localStorage.getItem("token") },
-        }
-      )
-      .then((response) => {
-        const data = response.data;
-        // console.log(data);
-        localStorage.setItem("user", data.Username);
-        // props.setUsername(data.Username);
-        alert("Your profile was updated successfully");
-        window.open("/", "_self");
-      })
-      .catch((e) => {
-        console.log(e);
-      });
+      axios
+        .put(
+          url,
+          {
+            Username: username,
+            Password: password,
+            Email: email,
+            Birthday: birthday,
+          },
+          {
+            headers: {
+              Authorization: "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        )
+        .then((response) => {
+          const data = response.data;
+          // console.log(data);
+          localStorage.setItem("user", data.Username);
+          // props.setUsername(data.Username);
+          alert("Your profile was updated successfully");
+          window.open("/", "_self");
+        })
+        .catch((e) => {
+          console.log(e);
+          alert("Username contains non alphanumeric characters - not allowed");
+        });
+    }
   };
-}
 
-const formValidation = () => {
-  const usernameErr = {};
-  const passwordErr = {};
-  const emailErr = {};
-  let isValid = true;
+  const formValidation = () => {
+    const usernameErr = {};
+    const passwordErr = {};
+    const emailErr = {};
+    let isValid = true;
 
-  if (username.trim().length < 5) {
-    usernameErr.usernameShort = 'Username must be at least 5 characters';
-    isValid = false;
-  }
+    if (username.trim().length < 5) {
+      usernameErr.usernameShort = "Username must be at least 5 characters";
+      isValid = false;
+    }
 
-  if (password.trim().length < 1) {
-    passwordErr.passwordMissing = 'You must enter a password';
-    isValid = false;
-  }
+    if (password.trim().length < 1) {
+      passwordErr.passwordMissing = "You must enter a password";
+      isValid = false;
+    }
 
-  if (!email.includes('.') && !email.includes('@')) {
-    emailErr.emailNotEmail = 'A valid email address is required';
-    isValid = false;
-  }
+    if (!email.includes(".") && !email.includes("@")) {
+      emailErr.emailNotEmail = "A valid email address is required";
+      isValid = false;
+    }
 
-  setUsernameErr(usernameErr);
-  setPasswordErr(passwordErr);
-  setEmailErr(emailErr);
-  return isValid;
-}
+    setUsernameErr(usernameErr);
+    setPasswordErr(passwordErr);
+    setEmailErr(emailErr);
+    return isValid;
+  };
 
   return (
     <Container>
@@ -94,7 +96,11 @@ const formValidation = () => {
             onChange={(e) => setUsername(e.target.value)}
           />
           {Object.keys(usernameErr).map((key) => {
-            return <div key={key} style={{ color: 'red' }}>{usernameErr[key]}</div>
+            return (
+              <div key={key} style={{ color: "red" }}>
+                {usernameErr[key]}
+              </div>
+            );
           })}
         </Form.Group>
         <Form.Group controlId="formBasicPassword">
@@ -107,7 +113,11 @@ const formValidation = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           {Object.keys(passwordErr).map((key) => {
-            return <div key={key} style={{ color: 'red' }}>{passwordErr[key]}</div>
+            return (
+              <div key={key} style={{ color: "red" }}>
+                {passwordErr[key]}
+              </div>
+            );
           })}
         </Form.Group>
         <Form.Group>
@@ -130,7 +140,11 @@ const formValidation = () => {
             onChange={(e) => setEmail(e.target.value)}
           />
           {Object.keys(emailErr).map((key) => {
-            return <div key={key} style={{ color: 'red' }}>{emailErr[key]}</div>
+            return (
+              <div key={key} style={{ color: "red" }}>
+                {emailErr[key]}
+              </div>
+            );
           })}
         </Form.Group>
         <Link to={`/users/`}>

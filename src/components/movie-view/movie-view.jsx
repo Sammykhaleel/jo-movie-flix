@@ -1,24 +1,21 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import axios from 'axios';
-import Button from 'react-bootstrap/Button';
-import { Link } from 'react-router-dom';
-import Container from 'react-bootstrap/Container';
-import Col from 'react-bootstrap/Col';
-import Row from 'react-bootstrap/Row';
-import { Card } from 'react-bootstrap';
-import './movie-view.scss';
-import { propTypes } from 'react-bootstrap/esm/Image';
+import React from "react";
+import PropTypes from "prop-types";
+import axios from "axios";
+import Button from "react-bootstrap/Button";
+import { Link } from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import Col from "react-bootstrap/Col";
+import Row from "react-bootstrap/Row";
+import { Card } from "react-bootstrap";
+import "./movie-view.scss";
+import { propTypes } from "react-bootstrap/esm/Image";
 
 export class MovieView extends React.Component {
-
   constructor() {
     super();
 
     this.state = {};
   }
-
-  
 
   addFavorite(movie) {
     let token = localStorage.getItem("token");
@@ -36,8 +33,9 @@ export class MovieView extends React.Component {
       })
       .then((response) => {
         console.log(response);
-        window.open("/", "_self");
-        alert('Added to favorites!');
+        // window.open("/", "_self");
+        window.open("/movies/" + movie._id, "_self");
+        alert("Added to favorites!");
       });
   }
 
@@ -78,7 +76,7 @@ export class MovieView extends React.Component {
                 size="sm"
                 onClick={() => this.addFavorite(movie)}
               >
-              Add to Favorites
+                Add to Favorites
               </Button>
             </div>
 
@@ -108,6 +106,7 @@ MovieView.propTypes = {
       // Birth: PropTypes.string.isRequired,
       // Death: PropTypes.string
     }),
-  // }).isRequired,
-  // onClick: propTypes.func.isRequired,
-})};
+    // }).isRequired,
+    // onClick: propTypes.func.isRequired,
+  }),
+};
